@@ -151,6 +151,10 @@ class Showing(models.Model):
     class Meta:
         db_table = "Showing"
 
+    def __str__(self):
+        template = '{0.date}'
+        return template.format(self) 
+
 """
         TODO    
 """

@@ -6,6 +6,7 @@ from UWFX.forms import deleteFilmForm
 from UWFX.forms import addScreenForm
 from UWFX.models import Film
 from UWFX.models import Showing
+from datetime import date
 
 def home(request):
     return render(request, "UWFX/home.html")
@@ -26,6 +27,7 @@ def addFilm(request):
 def deleteFilm(request):
     context = {}
     form = deleteFilmForm(request.GET or None)
+    Showing.objects.filter(date__lt = date.today()).delete()
 
     if request.method == "GET":
         if form.is_valid():
