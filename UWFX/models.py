@@ -8,8 +8,14 @@ from django.db import models
 from django.forms import CharField, DateField, FloatField, IntegerField
 from django.utils import timezone
 import uuid
+import datetime
 from django.core.validators import RegexValidator
 
+"""
+Migrate DB with following commands:
+python manage.py makemigrations
+python manage.py migrate
+"""
 
 """
     Student Club and Representative Models includes Transaction
@@ -48,14 +54,12 @@ class Club(models.Model):
     address_fk = models.ForeignKey(Address, on_delete=models.CASCADE)
     contactDetails_fk = models.ForeignKey(ContactDetails, on_delete=models.CASCADE)
 
-
     class Meta:
         db_table = "Club"
 
     def __str__(self):
         template = '{0.name}, {0.address_fk}, {0.contactDetails_fk}'
         return template.format(self) 
-
 
 class Representative(models.Model):
     
@@ -105,14 +109,22 @@ class Cinema(models.Model):
     class Meta:
         db_table = "Cinema"
 
+    def __str__(self):
+        template = 'UWEFlix'
+        return template.format(self) 
+
 class Screen(models.Model):
 
-    capacity = models.IntegerField(11)
-    screenNumber = models.IntegerField(11)
-    cinema_fk = models.ForeignKey(Cinema, on_delete=models.CASCADE)
+    screenNumber = models.IntegerField("Screen Number")
+    capacity = models.IntegerField("Capacity")
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Screen"
+
+    def __str__(self):
+        template = '{0.screenNumber}'
+        return template.format(self) 
 
 class Film(models.Model):
 
@@ -131,11 +143,10 @@ class Film(models.Model):
 class Showing(models.Model):
 
     # TODO formatting needed - no longer null = True
-    date = models.DateField(null=True) # format
-    time = models.TimeField(null=True) # format
-    ticketsSold = models.IntegerField(11)
-    screen_fk = models.ForeignKey(Screen, on_delete=models.CASCADE)
-    film_fk = models.ForeignKey(Film, on_delete=models.CASCADE)
+    date = models.DateField(("Date"), default=datetime.date.today)
+    time = models.TimeField("Time")
+    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
     
     class Meta:
         db_table = "Showing"

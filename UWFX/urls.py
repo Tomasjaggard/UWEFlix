@@ -5,4 +5,6 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("addFilm/", views.addFilm, name="addFilm"),
     path("deleteFilm/", views.deleteFilm, name="deleteFilm"),
+    path("addScreen/", views.addScreen, name="addScreen"),
+    path("addShowing/", views.addShowing, name="addShowing"),
 ]

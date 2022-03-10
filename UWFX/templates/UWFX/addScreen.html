@@ -1,0 +1,15 @@
+{% extends "UWFX/layout.html" %} {% block title %} Add Screen {% endblock %} 
+{% block content %}
+<h3>Add Screen</h3>
+<form method="post" class="form-group">
+    {% csrf_token %} {{form}}
+    <button type="submit" class="btn btn-success">Add Screen</button>
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
