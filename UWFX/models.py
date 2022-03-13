@@ -90,13 +90,11 @@ class Transaction(models.Model):
 
     amount = models.FloatField(11)
     data = models.DateField(null=True)
-    #representative = models.ForeignKey(Representative, on_delete=models.CASCADE)
-    account_fk = models.ForeignKey(Account, on_delete=models.CASCADE)
+    representative = models.ForeignKey(Representative, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Transaction"
-
-
 
 """             
     Cinema Models including Cinema, Screen, Film and Showing.
