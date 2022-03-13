@@ -21,7 +21,7 @@ python manage.py migrate
     Student Club and Representative Models includes Transaction
 """
     
-class Address(models.Model):
+"""class Address(models.Model):
 
     streetNumber = models.CharField(max_length=10)
     street = models.CharField(max_length=30)
@@ -34,32 +34,13 @@ class Address(models.Model):
     def __str__(self):
         template = '{0.streetNumber} {0.street}, {0.city}, {0.post_code}'
         return template.format(self) 
-
-class ContactDetails(models.Model):
-
-    # Regex Validator makes sure to accept a length of 11 made of digits.
-    landline = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{1,9}$')])
-    mobile = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{1,9}$')])
-    email = models.EmailField(max_length=50)
-
     class Meta:
         db_table = "ContactDetails"
 
     def __str__(self):
-        template = '{0.email}, {0.mobile}, {0.land_line}'
+        template = '{0.email}, {0.mobile}, {0.landline}'
         return template.format(self) 
-
-class Club(models.Model):
-    name = models.CharField(max_length=30)
-    address_fk = models.ForeignKey(Address, on_delete=models.CASCADE)
-    contactDetails_fk = models.ForeignKey(ContactDetails, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = "Club"
-
-    def __str__(self):
-        template = '{0.name}, {0.address_fk}, {0.contactDetails_fk}'
-        return template.format(self) 
+"""
 
 class Representative(models.Model):
     
@@ -67,12 +48,32 @@ class Representative(models.Model):
     lastName =  models.CharField(max_length=30)
     # TODO dob needs to be formatted - Format is set in forms
     dob = models.DateField(null=True)
-    number = models.IntegerField(11, unique=True)
-    password = models.CharField(max_length=20, blank=True, unique=True, default=uuid.uuid4)
-    club_fk = models.ForeignKey(Club, on_delete=models.CASCADE, null='None')
+    number = models.IntegerField('Number', unique=True)
+    password = models.CharField(max_length=36, blank=True, unique=True, default=uuid.uuid4)
+    #club = models.ForeignKey(Club, on_delete=models.CASCADE, null='None')
 
     class Meta:
         db_table = "Representative"
+
+class Club(models.Model):
+    name = models.CharField(max_length=30)
+    streetNumber = models.CharField(max_length=10)
+    street = models.CharField(max_length=30)
+    city = models.CharField(max_length=20)
+    post_code = models.CharField(max_length=7)
+    landline = models.IntegerField('landline')
+    mobile = models.IntegerField('Mobile')
+    email = models.EmailField(max_length=50)
+    rep = models.ForeignKey(Representative, on_delete=models.CASCADE)
+    #address_fk = models.ForeignKey(Address, on_delete=models.CASCADE, null=False)
+    #contactDetails_fk = models.ForeignKey(ContactDetails, on_delete=models.CASCADE, null=False)
+
+    class Meta:
+        db_table = "Club"
+        
+    def __str__(self):
+        template = '{0.name}'
+        return template.format(self) 
 
 class Account(models.Model):
     
@@ -80,7 +81,7 @@ class Account(models.Model):
     cardNumber = models.CharField(max_length=17)
     expiryDate = models.CharField(max_length=7)
     discountRate = models.IntegerField(11)
-    club_fk = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Account"
@@ -89,7 +90,7 @@ class Transaction(models.Model):
 
     amount = models.FloatField(11)
     data = models.DateField(null=True)
-    representative = models.ForeignKey(Representative, on_delete=models.CASCADE)
+    #representative = models.ForeignKey(Representative, on_delete=models.CASCADE)
     account_fk = models.ForeignKey(Account, on_delete=models.CASCADE)
 
     class Meta:

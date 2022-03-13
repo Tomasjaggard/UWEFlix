@@ -1,7 +1,8 @@
+from operator import add
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib import messages
-from UWFX.forms import addFilmForm, addShowingForm
+from UWFX.forms import  *
 from UWFX.forms import deleteFilmForm
 from UWFX.forms import addScreenForm
 from UWFX.models import Film
@@ -65,3 +66,37 @@ def addShowing(request):
 
     context['form'] = form
     return render(request, "UWFX/addShowing.html", context)
+
+
+def addClubDetails(request):
+    context = {}
+    clubForm = addClubForm(request.POST or None)
+    repForm = addRepForm(request.POST or None)
+    if request.method == "POST":
+        if clubForm.is_valid() and repForm.is_valid():
+            rep = repForm.save()
+            
+            club = clubForm.save(commit=False)
+            club.rep = rep
+            club.save()
+            messages.success(request, "Club Registered Successfully.")
+            return redirect('/addClubDetails')
+
+    context = {
+        'clubForm': clubForm,
+        'repForm': repForm,
+    }
+    return render(request, "UWFX/addClub.html", context)
+
+
+def deleteClub(request):
+    context = {}
+    form = deleteClubForm(request.GET or None)
+
+    if request.method == "GET":
+        if form.is_valid():
+            Club.objects.filter(id=request.GET['delete_club']).delete()
+            messages.success(request, "Club details successfully deleted.")
+
+    context['form'] = form
+    return render(request, "UWFX/deleteClub.html", context)

@@ -23,6 +23,7 @@ urlpatterns = [
     path("", include("UWFX.urls")),
     path('admin/', admin.site.urls),
     path('addFilm/', views.addFilm, name="addFilms"),
+    path("addClubDetail/", views.addClubDetails, name="addClubDetails"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

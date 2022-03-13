@@ -7,4 +7,6 @@ urlpatterns = [
     path("deleteFilm/", views.deleteFilm, name="deleteFilm"),
     path("addScreen/", views.addScreen, name="addScreen"),
     path("addShowing/", views.addShowing, name="addShowing"),
+    path("addClubDetails/", views.addClubDetails, name="addClubDetails"),
+    path("deleteClub/", views.deleteClub, name="deleteClub"),
 ]

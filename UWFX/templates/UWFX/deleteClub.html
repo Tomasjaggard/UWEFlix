@@ -1,0 +1,15 @@
+{% extends "UWFX/layout.html" %} {% block title %} Delete Club {% endblock %}
+{% block content %}
+<h3>Select a Club to Delete</h3>
+<form method="GET">
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
