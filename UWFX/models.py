@@ -44,10 +44,10 @@ python manage.py migrate
 
 class Representative(models.Model):
     
-    firstName = models.CharField(max_length=30)
-    lastName =  models.CharField(max_length=30)
+    firstName = models.CharField('Forename', max_length=30)
+    lastName =  models.CharField('Surname', max_length=30)
     # TODO dob needs to be formatted - Format is set in forms
-    dob = models.DateField(null=True)
+    dob = models.DateField(("dob"), default=datetime.date.today)
     number = models.IntegerField('Number', unique=True)
     password = models.CharField(max_length=36, blank=True, unique=True, default=uuid.uuid4)
     #club = models.ForeignKey(Club, on_delete=models.CASCADE, null='None')

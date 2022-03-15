@@ -1,3 +1,4 @@
+from tkinter import Widget
 from django import forms
 from UWFX.models import *
 from UWFX.models import Screen
@@ -38,6 +39,9 @@ class addRepForm(forms.ModelForm):
     class Meta:
         model = Representative
         fields = "__all__"
+        widgets = {
+        'dob': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
+        }
 
 """class addAddressForm(forms.ModelForm):
     class Meta:
@@ -59,6 +63,6 @@ class deleteClubForm(forms.Form):
 class deleteRepForm(forms.Form):
     delete_club = forms.ModelChoiceField(
         widget=forms.Select,
-        queryset=Club.objects.all(),
+        queryset=Representative.objects.all(),
         initial=0
         )

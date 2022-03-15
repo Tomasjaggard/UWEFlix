@@ -1,8 +1,9 @@
+import importlib
 from operator import add
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib import messages
-from UWFX.forms import  *
+from UWFX.forms import *
 from UWFX.forms import deleteFilmForm
 from UWFX.forms import addScreenForm
 from UWFX.models import Film
@@ -74,13 +75,15 @@ def addClubDetails(request):
     repForm = addRepForm(request.POST or None)
     if request.method == "POST":
         if clubForm.is_valid() and repForm.is_valid():
-            rep = repForm.save()
-            
             club = clubForm.save(commit=False)
+            rep = repForm.save()
             club.rep = rep
             club.save()
             messages.success(request, "Club Registered Successfully.")
             return redirect('/addClubDetails')
+            #insurance = insuranceinfo.save(commit=False)
+            #insurance.Paciente = patient
+            #insurance.save()
 
     context = {
         'clubForm': clubForm,
